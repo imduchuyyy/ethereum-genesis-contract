@@ -42,6 +42,12 @@ contract EnableGasPayer is IEnableGasPayer, Ownable {
         return address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xff), _creator, _salt, _codeHash)))));
     }
 
+    function _setEnable(address _contract, bytes4[] memory _methods, bool isEnable) private {
+        for (uint i = 0; i < _methods.length; i++) {
+            _enableMethod[_contract][_methods[i]] = isEnable;
+        }
+    }
+
     function init(uint256 _lockValue) onlyOwner public {
         _isInitial = true;
         LOCK_VALUE = _lockValue;
@@ -62,12 +68,6 @@ contract EnableGasPayer is IEnableGasPayer, Ownable {
         _payers[_contract] = msg.sender;
 
         emit RegisterContract(_contract, msg.sender);
-    }
-
-    function _setEnable(address _contract, bytes4[] memory _methods, bool isEnable) private {
-        for (uint i = 0; i < _methods.length; i++) {
-            _enableMethod[_contract][_methods[i]] = isEnable;
-        }
     }
 
     function enable(address _contract, bytes4[] memory _methods) payable public {
