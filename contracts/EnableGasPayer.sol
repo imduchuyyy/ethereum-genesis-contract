@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
-import "./utils/Ownable.sol";
 import "./utils/Address.sol";
 import "./interfaces/IEnableGasPayer.sol";
 
@@ -9,7 +8,7 @@ import "./interfaces/IEnableGasPayer.sol";
  * @author Bui Duc Huy<duchuy.124dk@gmail.com>
  * @dev Implementation of the contract enable pay gas.
  */
-contract EnableGasPayer is IEnableGasPayer, Ownable {
+contract EnableGasPayer is IEnableGasPayer {
     mapping(address => mapping(bytes4 => bool)) private _enableMethod;
     mapping(address => bool) private _enableContracts;
     mapping(address => address) private _payers;
@@ -62,7 +61,7 @@ contract EnableGasPayer is IEnableGasPayer, Ownable {
         }
     }
 
-    function init(uint256 _lockValue) onlyOwner public {
+    function init(uint256 _lockValue) public {
         _isInitial = true;
         LOCK_VALUE = _lockValue;
     }
