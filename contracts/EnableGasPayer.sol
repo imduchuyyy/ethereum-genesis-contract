@@ -13,10 +13,10 @@ contract EnableGasPayer is IEnableGasPayer, Ownable {
     mapping(address => bool) private _enableContracts;
     mapping(address => address) private _payers;
     uint256 public LOCK_VALUE;
-    bool isInitial;
+    bool _isInitial;
 
     modifier isNotInit() {
-        require(!isInitial, "Coin98 EnableGasPayer: Contract has been init");
+        require(!_isInitial, "Coin98 EnableGasPayer: Contract has been init");
         _;
     }
 
@@ -43,7 +43,7 @@ contract EnableGasPayer is IEnableGasPayer, Ownable {
     }
 
     function init(uint256 _lockValue) onlyOwner public {
-        isInitial = true;
+        _isInitial = true;
         LOCK_VALUE = _lockValue;
     }
 
